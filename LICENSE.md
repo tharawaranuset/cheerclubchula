@@ -1,3 +1,4 @@
+```
 Copyright © 2024 Chula Cheerleading and Card Stunt Club, Chulalongkorn University.  
 Developed by [pornvutp@gmail.com] and [tharawaranuset@gmail.com]. All rights reserved.
 
@@ -16,3 +17,4 @@ For inquiries or requests for specific permissions, please contact:
 - Email: [pornvutp@gmail.com]  ,[tharawaranuset@gmail.com]
 
 © 2024 Chula Cheerleading and Card Stunt Club, Chulalongkorn University.
+```
