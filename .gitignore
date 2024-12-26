@@ -1,0 +1,6 @@
+# Ignore specific files
+db_cucsa.sql
+cucsa/functions.php
+
+# Ignore specific folder
+cucsa/code/
