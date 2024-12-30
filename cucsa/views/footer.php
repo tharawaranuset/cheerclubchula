@@ -35,7 +35,7 @@
                 $feed_rows .= 
 
                     '
-                    <form method="post" action="editor.php">
+                    <form method="post" action="/cucsa/editor.php">
                         <input type="hidden" name="action" value="edit-code">
                         <tr><td>
                         <strong>'
@@ -108,7 +108,7 @@
           </div>
           <div class="modal-footer">
 
-              <a href="feed.php" role="button" class="btn btn-info">See All</a>
+              <!--<a href="feed.php" role="button" class="btn btn-info">See All</a>-->
 
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 

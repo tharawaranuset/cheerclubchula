@@ -68,7 +68,7 @@
         $_SESSION['alert_edit'] = '
 
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              Your code is deleted!
+              Your code/openshut is deleted!
               <button type="button" class="close" data-dismiss="alert">
                 <span>&times;</span>
               </button>
@@ -217,7 +217,7 @@
 
         echo '
 
-            <form method="post" action="editor.php" id="redirect">
+            <form method="post" action="/cucsa/editor.php" id="redirect">
                 <input type="hidden" name="action" value="edit-code">
                 <input type="hidden" name="id" value="'.$_POST['id-edit'].'">
             </form>
@@ -249,7 +249,7 @@
 
         echo '
 
-            <form method="post" action="editor.php" id="redirect">
+            <form method="post" action="/cucsa/editor.php" id="redirect">
                 <input type="hidden" name="action" value="edit-code">
                 <input type="hidden" name="id" value="'.$_POST['id-delete'].'">
             </form>
@@ -278,7 +278,7 @@
 
         echo '
 
-            <form method="post" action="editor.php" id="redirect">
+            <form method="post" action="/cucsa/editor.php" id="redirect">
                 <input type="hidden" name="action" value="edit-code">
                 <input type="hidden" name="id" value="'.$_POST['id-review'].'">
             </form>
@@ -303,7 +303,7 @@
 
         echo '
 
-            <form method="post" action="editor.php" id="redirect">
+            <form method="post" action="/cucsa/editor.php" id="redirect">
                 <input type="hidden" name="action" value="edit-code">
                 <input type="hidden" name="id" value="'.$_POST['id-cmt-del'].'">
             </form>
@@ -333,6 +333,7 @@
 		";
 
 		$result_find = mysqli_query($link, $query_find);
+            
 
 		// ตรวจสอบผลลัพธ์
 		if (mysqli_num_rows($result_find) > 0) {
@@ -343,19 +344,43 @@
         			AND `n_primary` = '$n_primary' 
         			AND `user_id` = '$user_id'
     			";    
-        			mysqli_query($link, $query_delete);
-                echo '
+        		mysqli_query($link, $query_delete);
+                
+                // ตรวจสอบจำนวนของ id_primary และ n_primary ที่มีอยู่ในตาราง mpc
+                $query_check_count = "
+                        SELECT COUNT(*) AS count 
+                        FROM `mpc` 
+                        WHERE `id_primary` = '$id_primary' 
+                        AND `n_primary` = '$n_primary'
+                    ";
 
-            	<form method="post" action="editor.php" id="redirect">
-                	<input type="hidden" name="action" value="edit-code">
-                	<input type="hidden" name="id" value="'.$_POST['id-primary'].'">
-            	</form>
+                $result_check_count = mysqli_query($link, $query_check_count);
+                $row_check_count = mysqli_fetch_assoc($result_check_count);
+                
+                if ($row_check_count['count'] < 3){
+                        
+                        $id_primary = mysqli_real_escape_string($link, $_POST['id-primary']);
+                        $query = "SELECT COUNT(*) AS count FROM `draft` WHERE `id_code` = '$id_primary'";
+                        $result = mysqli_query($link, $query);
+                        $row = mysqli_fetch_assoc($result);
 
-            	<script type="text/javascript">
-                	document.getElementById("redirect").submit();
-            	</script>
+        				$query2 = "UPDATE `code` SET `status` = " . $row['count'] . ", `n_primary` = '0' WHERE `id` = " . $id_primary;
 
-        		';
+                        mysqli_query($link, $query2);
+                        
+        		}
+				echo '
+
+                        <form method="post" action="/cucsa/editor.php" id="redirect">
+                            <input type="hidden" name="action" value="edit-code">
+                            <input type="hidden" name="id" value="'.$_POST['id-primary'].'">
+                        </form>
+
+                        <script type="text/javascript">
+                            document.getElementById("redirect").submit();
+                        </script>
+
+                        ';
                 $_SESSION['status']='primary-success-2';
         }
         		
@@ -367,19 +392,18 @@
 			";
 
 			mysqli_query($link, $query_insert_mpc);
+                
+            	// ตรวจสอบจำนวนของ id_primary และ n_primary ที่มีอยู่ในตาราง mpc
+                $query_check_count = "
+                        SELECT COUNT(*) AS count 
+                        FROM `mpc` 
+                        WHERE `id_primary` = '$id_primary' 
+                        AND `n_primary` = '$n_primary'
+                    ";
 
-			// ตรวจสอบจำนวนของ id_primary และ n_primary ที่มีอยู่ในตาราง mpc
-			$query_check_count = "
-    			SELECT COUNT(*) AS count 
-    			FROM `mpc` 
-    			WHERE `id_primary` = '$id_primary' 
-    			AND `n_primary` = '$n_primary'
-			";
+                $result_check_count = mysqli_query($link, $query_check_count);
+                $row_check_count = mysqli_fetch_assoc($result_check_count);
 
-			$result_check_count = mysqli_query($link, $query_check_count);
-			$row_check_count = mysqli_fetch_assoc($result_check_count);
-                        
-            
         	if ($row_check_count['count'] >= 3){
 
         		$query11 = "SELECT * FROM `draft` WHERE `id_code` = '".$_POST['id-primary']."' AND `num_draft` = '".$_POST['n_primary']."' LIMIT 1";
@@ -394,11 +418,10 @@
                 
                 $_SESSION['primary-status']=0;
         	}
-        
-
+                
         	echo '
 
-            <form method="post" action="editor.php" id="redirect">
+            <form method="post" action="/cucsa/editor.php" id="redirect">
                 <input type="hidden" name="action" value="edit-code">
                 <input type="hidden" name="id" value="'.$_POST['id-primary'].'">
             </form>
@@ -430,7 +453,7 @@
 
         echo '
 
-            <form method="post" action="editor.php" id="redirect">
+            <form method="post" action="/cucsa/editor.php" id="redirect">
                 <input type="hidden" name="action" value="edit-code">
                 <input type="hidden" name="id" value="'.$_POST['id-recover'].'">
             </form>
@@ -579,7 +602,7 @@
 
             echo '
 
-                <form method="post" action="editor.php" id="redirect">
+                <form method="post" action="/cucsa/editor.php" id="redirect">
                     <input type="hidden" name="action" value="edit-code">
                     <input type="hidden" name="id" value="'.$_POST['id-draft'].'">
                 </form>
@@ -640,7 +663,7 @@
 
             echo '
 
-                <form method="post" action="editor.php" id="redirect">
+                <form method="post" action="/cucsa/editor.php" id="redirect">
                     <input type="hidden" name="action" value="edit-code">
                     <input type="hidden" name="id" value="'.$_POST['id-draft'].'">
                 </form>
@@ -657,7 +680,43 @@
         }
 
     }
+	elseif ($_POST['action'] == 'del-op') {
+            
+            $query9 = "SELECT * FROM `draft` WHERE id_code = ".$_POST['id-op']." AND num_draft = ".$_POST['n_draft_op'];
 
+            $result9 = mysqli_query($link, $query9);
+
+            $row9 = mysqli_fetch_assoc($result9);
+            
+            $file_path = "code/1-25/op/" . $row9['filename']."_OP.bmp";
+            
+            if (file_exists($file_path)) {
+            	unlink($file_path);
+            }
+            
+            $query11 = "UPDATE `draft` SET `op` = '' WHERE id_code = ".$_POST['id-op']." AND num_draft = ".$_POST['n_draft_op'];
+
+            mysqli_query($link, $query11);
+
+            $query12 = "UPDATE `code` SET `op` = '' WHERE id = ".$_POST['id-op'];
+
+            mysqli_query($link, $query12);
+            
+            echo '
+
+                <form method="post" action="/cucsa/editor.php" id="redirect">
+                    <input type="hidden" name="action" value="edit-code">
+                    <input type="hidden" name="id" value="'.$_POST['id-op'].'">
+                </form>
+
+                <script type="text/javascript">
+                    document.getElementById("redirect").submit();
+                </script>
+
+            ';
+
+            $_SESSION['status']='delete-success';
+	}
 
     elseif($_POST['action']=='add-op'){
 
@@ -735,7 +794,7 @@
 
             echo '
 
-                <form method="post" action="editor.php" id="redirect">
+                <form method="post" action="/cucsa/editor.php" id="redirect">
                     <input type="hidden" name="action" value="edit-code">
                     <input type="hidden" name="id" value="'.$_POST['id-op'].'">
                 </form>
@@ -769,7 +828,7 @@
 
             echo '
 
-                <form method="post" action="editor.php" id="redirect">
+                <form method="post" action="/cucsa/editor.php" id="redirect">
                     <input type="hidden" name="action" value="edit-code">
                     <input type="hidden" name="id" value="'.$_POST['id-op'].'">
                 </form>
@@ -923,11 +982,11 @@
 			$result_mpc = mysqli_query($link, $query_mpc);
 
             if($row6[$x][3]==$row7['n_primary']){
-                $option = '<span class="badge badge-success">Primary</span><br/>';
+                $option .= '<span class="badge badge-success">Primary</span><br>';
             }
 
-            if($row7['n_primary'] == 0 and $row7['status'] != -1){
-                $option = '
+            if($row7['status'] != -1){
+                $option .= '
 
                         <a href="#" role="button" class="badge badge-pill badge-warning" data-toggle="modal" data-target="#review'.$row6[$x][3].'">
                             <i class="material-icons md-14" data-toggle="tooltip" data-placement="top" title="Review">rate_review</i>
@@ -1188,11 +1247,11 @@
 			$result_mpc = mysqli_query($link, $query_mpc);
 
             if($row6[$x][3]==$row7['n_primary']){
-                $option = '<span class="badge badge-success">Primary</span><br/>';
+                $option .= '<span class="badge badge-success">Primary</span><br>';
             }
 
-            if($row7['n_primary'] == 0){
-                $option = '
+			if($row7['status'] != -1){
+                $option .= '
 
                         <a href="#" role="button" class="badge badge-pill badge-warning" data-toggle="modal" data-target="#review'.$row6[$x][3].'">
                             <i class="material-icons md-14" data-toggle="tooltip" data-placement="top" title="Review">rate_review</i>
@@ -1218,8 +1277,8 @@
                         	</a>';
                             
                     }
-                    
-                }
+              }
+                
             }
 
 
@@ -1513,11 +1572,11 @@
             
 
             if($row6[$x][3]==$row7['n_primary']){
-                $option = '<span class="badge badge-success">Primary</span><br/>';
+                $option .= '<span class="badge badge-success">Primary</span><br>';
             }
 
-            if($row7['n_primary'] == 0){
-                $option = '
+            if($row7['status'] != -1){
+                $option .= '
 
                         <a href="#" role="button" class="badge badge-pill badge-warning" data-toggle="modal" data-target="#review'.$row6[$x][3].'">
                             <i class="material-icons md-14" data-toggle="tooltip" data-placement="top" title="Review">rate_review</i>
@@ -1633,7 +1692,7 @@
 
             ';
 
-            $img_op = '';
+            $img_op = '<div>***No Open-shut***</div>';
 
             $query10 = "SELECT * FROM `draft` WHERE id_code = ".$_POST['id']." AND num_draft = ".$row6[$x][3];
 
@@ -1642,10 +1701,14 @@
             $row10 = mysqli_fetch_assoc($result10);
 
             if($row10['filename']!=''){
+                    
+               if($row10['op']!=''){
 
-                $newfilename = $row10['filename'].'_OP';
+                        $newfilename = $row10['filename'].'_OP';
 
-                $img_op = '<img src="code/1-25/op/'.$newfilename.'.bmp" style="image-rendering: pixelated;" width="450"><div class="row"></div>';
+                        $img_op = '<img src="code/1-25/op/'.$newfilename.'.bmp" style="image-rendering: pixelated;" width="450"><div class="row"></div>';
+
+            	}
 
             }
 
@@ -1666,7 +1729,7 @@
 
                             '.$img_op.'
 
-                            <form method="post" enctype="multipart/form-data">
+                            <form method="post" enctype="multipart/form-data" class="d-inline-block mr-2">
 
                                     <input type="hidden" name="id-op" value="'.$_POST['id'].'">
                                     <input type="hidden" name="n_draft_op" value="'.$row6[$x][3].'">
@@ -1682,10 +1745,20 @@
                                         <small id="fileUploadHelp-op" class="form-text text-muted">Please select only one file</small>
                                     </div>
 
-                                    <div class="text-right">
+                                    
                                         <button type="submit" id="submit-form" class="btn btn-success">Submit</button>
-                                    </div>
+                                    
 
+                            </form>
+                            <form method="post" enctype="multipart/form-data" class="d-inline-block">
+
+                                    <input type="hidden" name="id-op" value="'.$_POST['id'].'">
+                                    <input type="hidden" name="n_draft_op" value="'.$row6[$x][3].'">
+                                    <input type="hidden" name="id_draft" value="'.$row6[$x][0].'">
+                                    <input type="hidden" name="action" value="del-op">
+                      				<div class="text-right">
+                                        <button type="submit" id="submit-form" class="btn btn-danger">Delete</button>
+                                    </div>
                             </form>
 
                       </div>

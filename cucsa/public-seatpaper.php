@@ -1,9 +1,14 @@
 <?php
 	
-    include("actions.php");
+	include("functions.php");
 
-    include("views/header.php");
+	session_start();
+	$_SESSION['menu']='';
 
+	include("views/header.php");
+	
+	error_reporting(E_ALL); // เปิดการแสดงข้อผิดพลาดทั้งหมดในช่วงพัฒนา
+    ini_set('display_errors', 0); // เปิดการแสดง error
 
     $query_size = "SELECT * FROM dimension WHERE id = '1'";
 
@@ -24,32 +29,15 @@
         
     }
     
-    session_start();
-
-	$query1 = "SELECT * FROM user WHERE id = '". $_COOKIE['id'] ."' LIMIT 1";
-
-        $result1 = mysqli_query($link, $query1);
-
-        $row1 = mysqli_fetch_assoc($result1);
-
-    if($row1['role']!=1){
-      echo '<meta http-equiv="refresh" content="0;url=index.php">';
-    }
 	
-    if($_GET['action']=='request-seat'){
+
+    if($_GET['action']=='request-view'){
         
         $_SESSION['row'] = $_GET['row'];
             
         $_SESSION['column'] = $_GET['column'];
             
-        echo '<meta http-equiv="refresh" content="0;url=by-seat.php">';
-        
-    }
-    elseif($_GET['action']=='request-row'){
-        
-        $_SESSION['row'] = $_GET['row'];
-            
-        echo '<meta http-equiv="refresh" content="0;url=by-row.php">';
+        echo '<meta http-equiv="refresh" content="0;url=mobile-view.php">';
         
     }
 
@@ -63,7 +51,7 @@
         
         <p class="h4">MOBILE VIEW</p>
         
-        <input type="hidden" name="action" value="request-seat">
+        <input type="hidden" name="action" value="request-view">
         
         <div class="form-row">
 
@@ -97,44 +85,8 @@
         <button type="submit" class="btn btn-primary">View</button>
         
     </form>
-    
-
-    <form class="my-4 mx-2" method="get" name="by-row">
-        
-        <p class="h4">PRINT VIEW</p>
-        
-        <input type="hidden" name="action" value="request-row">
-        
-        <div class="form-row">
-
-            <div class="form-group col">
-
-                <label for="row">แถวที่ (ROW)</label>
-
-                <select class="form-control" id="row" name="row" required>
-                    <option value="-1">ALL ROWS</option>
-                    <?php echo $option; ?>    
-
-                </select>
-
-              <small class="form-text text-muted">จากบนลงล่าง: A, B, C, ..., AA, AB, AC, ... // From upper to lower zone: A, B, C, ..., AA, AB, AC, ...</small>
-
-            </div>
-
-        </div>
-
-
-        <button type="submit" class="btn btn-primary">View</button>
-        
-    </form>
+    <br><br><br><div class="text-right"><a href="index.php" class="btn btn-info">Go Back to Login</a></div> 
 
 </div>
 
-
-
-<?php
-
-    include("views/footer.php");
-
-?>
 

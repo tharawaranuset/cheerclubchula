@@ -49,8 +49,6 @@
 
 		<a class="ml-3" href="index.php">or Login</a>
 
-	</form>
-
-
+	</form>  
 
 </div>

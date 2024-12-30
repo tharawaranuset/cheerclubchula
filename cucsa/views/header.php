@@ -31,8 +31,9 @@
   <body>
 
 		<nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light">
-		  <a class="navbar-brand" href="http://localhost/cheerclubchula.atwebpages.com/cucsa/">CUCSA</a>
+		  <a class="navbar-brand" href="http://cheerclubchula.atwebpages.com/cucsa/">CUCSA</a>
 
 			<?php echo $_SESSION['menu']; ?>
 
 		</nav>
+

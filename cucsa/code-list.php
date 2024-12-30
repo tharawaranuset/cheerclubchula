@@ -127,7 +127,7 @@
         
         $tr11 .= '
             <td>
-                <form method="post" action="editor.php">
+                <form method="post" action="/cucsa/editor.php">
                     <input type="hidden" name="action" value="edit-code">
                     <button type="submit" name="id" value="'.$row111[$i][0].'" class="btn btn-info btn-sm my-0 py-0" id="edit-button">
                         Edit
@@ -253,7 +253,7 @@
         
         $tr11seq .= '
             <td>
-                <form method="post" action="editor.php">
+                <form method="post" action="/cucsa/editor.php">
                     <input type="hidden" name="action" value="edit-code">
                     <button type="submit" name="id" value="'.$row11seq1[$i][0].'" class="btn btn-info btn-sm my-0 py-0" id="edit-button">
                         Edit
@@ -376,7 +376,7 @@
         
         $tr125 .= '
             <td>
-                <form method="post" action="editor.php">
+                <form method="post" action="/cucsa/editor.php">
                     <input type="hidden" name="action" value="edit-code">
                     <button type="submit" name="id" value="'.$row1251[$i][0].'" class="btn btn-info btn-sm my-0 py-0" id="edit-button">
                         Edit

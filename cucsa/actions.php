@@ -78,7 +78,7 @@
 
         $_GET['action'] = "";
 
-        setcookie("id", -1, time() + (86400 * 30 * 3650), "/");
+        setcookie("id", -1, time() + (86400), "/");
 
         session_unset();
 
@@ -106,7 +106,7 @@
 
                 $cookie_name = "id";
                 $cookie_value = $row1['id'];
-                setcookie($cookie_name, $cookie_value, time() + (86400 * 30 * 7), "/");
+                setcookie($cookie_name, $cookie_value, time() + (86400), "/");
 
                 $_POST['action'] ="";
                 header("Location: index.php");
@@ -116,7 +116,7 @@
 
                 $cookie_name = "id";
                 $cookie_value = $row1['id'];
-                setcookie($cookie_name, $cookie_value, time() + (86400 * 30 * 7), "/");
+                setcookie($cookie_name, $cookie_value, time() + (86400), "/");
 
                 $_POST['action'] = "";
                 header("Location: index.php");
@@ -497,6 +497,10 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="random.php">Random CODE</a>
                     </li>
+                    
+                    <li class="nav-item active">
+                        <a class="nav-link" href="user-list.php">Member</a>
+                    </li>
 
                     <li class="nav-item active">
                         <a class="nav-link" href="setting.php">Setting</a>
@@ -535,7 +539,11 @@
                     </li>
                     
                     <li class="nav-item active">
-                        <a class="nav-link" href="seatpaper.php">Seat Paper</a>
+                        <a class="nav-link" href="user-list.php">Member</a>
+                    </li>
+                    
+                    <li class="nav-item active">
+                        <a class="nav-link" href="setting.php">Setting</a>
                     </li>
                     
                 </ul>
@@ -633,6 +641,10 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="random.php">Random CODE</a>
                     </li>
+                    
+                    <li class="nav-item active">
+                        <a class="nav-link" href="user-list.php">Member</a>
+                    </li>
 
                     <li class="nav-item active">
                         <a class="nav-link" href="setting.php">Setting</a>
@@ -670,7 +682,11 @@
                     </li>
                     
                     <li class="nav-item active">
-                        <a class="nav-link" href="seatpaper.php">Seat Paper</a>
+                        <a class="nav-link" href="user-list.php">Member</a>
+                    </li>
+                    
+                    <li class="nav-item active">
+                        <a class="nav-link" href="setting.php">Setting</a>
                     </li>
 
                 </ul>

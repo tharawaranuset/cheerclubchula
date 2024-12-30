@@ -2,7 +2,19 @@
 
     include("actions.php");
 
+	$query1 = "SELECT * FROM user WHERE id = '". $_COOKIE['id'] ."' LIMIT 1";
+
+        $result1 = mysqli_query($link, $query1);
+
+        $row1 = mysqli_fetch_assoc($result1);
+
+    if($row1['role']!=1){
+      header("Location: index.php");
+    }
+
     include("views/header.php");
+
+	
 
     if($_SESSION['swap_status']=='fail'){
         
@@ -118,6 +130,8 @@
 
     $code11 = '';
 
+	$currentCategory = ''; // เก็บ category ปัจจุบัน
+
     for($i = 0; $i < mysqli_num_rows($result1); $i++){
         
         $query_cat = "SELECT * FROM category WHERE id = ".$row1[$i][6];
@@ -125,6 +139,15 @@
         $result_cat = mysqli_query($link, $query_cat);
 
         $row_cat = mysqli_fetch_assoc($result_cat);
+            
+		// ตรวจสอบว่า category เปลี่ยนแปลงหรือไม่
+        if ($currentCategory !== $row_cat['name']) {
+
+              // ตั้งค่า category ใหม่ และเริ่มต้น row ใหม่
+              $currentCategory = $row_cat['name'];
+
+              $code11 .= '<small class="text-muted my-0 py-0" style="width: 100%; font-weight: bold;">' . $currentCategory . '</small>';
+         }
 
         $code11 .= '
        
@@ -136,7 +159,7 @@
                 <input type="hidden" name="action" value="edit-code">
                 <input type="hidden" name="id" value="'.$row1[$i][0].'">
                 <input class="my-0 py-0" type="image" name="submit" border="0" alt="Submit" src="code/1-1/'.$row1[$i][8].'.bmp" style="image-rendering: pixelated; width: 100%;">
-                <small class="form-text text-muted my-0 py-0">'.$row_cat['name'].'</small>
+                <!--<small class="form-text text-muted my-0 py-0">'.$row_cat['name'].'</small>-->
             </form>
           
 
@@ -244,6 +267,7 @@
         <?php echo $code11; ?>
     
     </div>
+    <hr>
     
     <div class="row mx-1 mx-0 px-1 my-1 py-0">
         <span class="h4">CODE 1:1 Sequence &nbsp;</span>
@@ -259,7 +283,7 @@
     	<?php echo $code11seq; ?>
             
     </div>
-    
+    <hr>
     <div class="row mx-1 mx-0 px-1 my-1 py-0">
         <span class="h4">CODE 1:25 &nbsp;</span>
             
@@ -275,7 +299,8 @@
         
         
     </div>
-    
+    <br><br><br>
+    <a href="summary-print.php" class="button">Go to Summary Print</a>
     <div style="height: 70px;"></div>
     
 

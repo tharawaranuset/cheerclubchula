@@ -3,7 +3,7 @@
     <?php echo $_SESSION['alert_add']; ?>
     
       <div class="alert alert-primary alert-dismissible fade show" role="alert">
-      <strong>News: !!! ON UPDATE !!!<br></strong> 
+      <strong>News: ON UPDATE <br></strong> 
               <?php 
               	for ($i = 0; $i < count($news_array); $i++) {
         echo $i+1 .'. '. $news_array[$i] . "<br>";  // แสดงข้อความจาก array

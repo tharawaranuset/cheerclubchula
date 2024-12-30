@@ -2,6 +2,16 @@
 
     include("actions.php");
 
+	$query1 = "SELECT * FROM user WHERE id = '". $_COOKIE['id'] ."' LIMIT 1";
+
+        $result1 = mysqli_query($link, $query1);
+
+        $row1 = mysqli_fetch_assoc($result1);
+
+    if($row1['role']!=1){
+      header("Location: index.php");
+    }
+
     include("views/header.php");
 	
 	// รับค่าจากฟอร์ม
@@ -158,7 +168,7 @@
     <?php if (!empty($image_path) && file_exists($image_path)) : ?>
         <div class="col-sm-4 col-xs-4 col-4 col-xl-2 col-lg-2 col-md-3 mx-0 px-1 my-1 py-0">
             <span><?php echo str_pad(1, 3, "0", STR_PAD_LEFT); ?> (ID: <?php echo $row_code['id']; ?>)</span>
-            <form method="post" action="editor.php">
+            <form method="post" action="/cucsa/editor.php">
                 <input type="hidden" name="action" value="edit-code">
                 <input type="hidden" name="id" value="<?php echo $row_code['id']; ?>">
                 <input class="my-0 py-0" type="image" name="submit" border="0" alt="Submit" src="<?php echo $image_path; ?>" style="image-rendering: pixelated; width: 100%;">

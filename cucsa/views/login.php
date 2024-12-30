@@ -27,5 +27,6 @@
 		<a class="ml-3" href="signup.php">or Sign Up</a>
 
 	</form>
+    <br><br><br><div class="text-right"><a href="public-seatpaper.php" class="btn btn-info">Go to Public Seat Paper</a></div> 
 
 </div>

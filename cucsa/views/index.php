@@ -1,3 +1,3 @@
 <?php
-    header("Location: http://localhost/cheerclubchula.atwebpages.com/cucsa/");
+    header("Location: http://www.cheerclubchula.atwebpages.com/cucsa");
 ?>
